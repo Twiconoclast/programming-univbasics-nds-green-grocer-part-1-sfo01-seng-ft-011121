@@ -9,16 +9,18 @@ end
 
 def consolidate_cart(cart)
   
-  consolidated_cart = []
-  cart.each_with_index do |hash, i|
-    count = 0
-    consolidated_cart_item = Hash.new(0)
-    consolidated_cart_item = cart[i][:item += 1]
-      
-    
-  end
+  count_cart = cart.group_by {|h| h[:item]}.map {|k, v| [k, v.count] }.to_h
+  return_cart = cart.uniq
   
-  return consolidated_cart
+  count_cart.each do |item, number|
+    return_cart.each_with_index do |hash, i|
+      if hash.has_value?(item)
+        return_cart[i][:count] = number
+      end
+    end
+  end
+
+  return return_cart
 end
 
 
