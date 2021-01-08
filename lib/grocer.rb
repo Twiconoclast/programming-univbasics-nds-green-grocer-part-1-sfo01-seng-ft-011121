@@ -1,16 +1,26 @@
 def find_item_by_name_in_collection(name, collection)
-  # Implement me first!
-  #
-  # Consult README for inputs and outputs
-
+  collection.each_with_index do |hash, i|
+    if collection[i][:item] == name
+      return collection[i]
+    end
+  end
+  return nil
 end
 
 def consolidate_cart(cart)
-  # Consult README for inputs and outputs
-  #
-  # REMEMBER: This returns a new Array that represents the cart. Don't merely
-  # change `cart` (i.e. mutate) it. It's easier to return a new thing.
+  
+  count_cart = cart.group_by {|h| h[:item]}.map {|k, v| [k, v.count] }.to_h
+  return_cart = cart.uniq
+  
+  count_cart.each do |item, number|
+    return_cart.each_with_index do |hash, i|
+      if hash.has_value?(item)
+        return_cart[i][:count] = number
+      end
+    end
+  end
 
+  return return_cart
 end
 
 
